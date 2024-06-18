@@ -70,3 +70,21 @@ services:
       timeout: 1m
       retries: 5
       start_period: 15s
+
+  liquibase:
+    image: liquibase/liquibase
+    container_name: liquibase
+    depends_on:
+        postgres:
+            condition: service_healthy
+    environment:
+      - LIQUIBASE_COMMAND_URL=jdbc:${DATABASE_DRIVER}://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE}
+      - LIQUIBASE_COMMAND_USERNAME=${DATABASE_USER}
+      - LIQUIBASE_COMMAND_PASSWORD=${DATABASE_PASSWORD}
+      - LIQUIBASE_COMMAND_CHANGELOG_FILE=changelog-root.xml
+      - LIQUIBASE_SEARCH_PATH=/liquibase/changelog
+      - LIQUIBASE_LIQUIBASE_SCHEMA_NAME=${DATABASE_SCHEMA}
+    volumes:
+        - ./liquibase/changelog:/liquibase/changelog
+    # Command to run the liquibase update service
+    command:  update

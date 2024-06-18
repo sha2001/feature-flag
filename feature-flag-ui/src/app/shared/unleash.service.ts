@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import UnleashClient from "unleash-client/lib/client";
+import {initialize, Unleash} from "unleash-client";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnleashService {
+  private unleash: Unleash;
 
-  private unleash : UnleashClient;
+
+
 
   constructor() {
-      this.unleash = new UnleashClient({
-        instanceId: 'unleash-client',
-        url: 'http://localhost:4242/api/',
-        appName: 'my-app',
-        refreshInterval: 10000,
-        metricsInterval: 10000,
-      }
+    this.unleash = initialize( {
+      url: 'http://localhost:4242/api/',
+      appName: 'my-app',
+      customHeaders: { Authorization: 'default:development.unleash-insecure-api-token' },
+    })
   }
 
-  async isFeatureEnabled(myFeature: string): Promise<Boolean> {
-    return this.unleash.isEnabled(myFeature);
+  public isFeatureEnabled(myFeature: string): Boolean {
+    return  this.unleash.isEnabled(myFeature);
   }
 }

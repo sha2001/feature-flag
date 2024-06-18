@@ -15,20 +15,22 @@ import {UnleashService} from "../shared/unleash.service";
 })
 export class PersonListComponent implements OnInit{
   protected persons: Person[] = [];
-  private isFeatureEnabled: boolean = false
+  private isFeatureEnabled: Boolean = false
 
   constructor(private personService: PersonService, private unleashService: UnleashService) {
-
   }
 
 
 
   ngOnInit(): void {
 
-    this.isFeatureEnabled = await this.unleashService.isFeatureEnabled('my-feature');
+    this.isFeatureEnabled = this.unleashService.isFeatureEnabled('my-feature');
 
-    this.personService.getAllPersons().subscribe((response) => {
-      this.persons = response;
-    });
+    if (this.isFeatureEnabled)
+    {
+      this.personService.getAllPersons().subscribe((response) => {
+        this.persons = response;
+      });
+    }
   }
 }
