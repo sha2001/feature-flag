@@ -1,9 +1,10 @@
-package be.sha2001.featureflags.rest.person;
+package be.sha2001.featureflags.rest.person.v1;
 
 
 import be.sha2001.featureflags.business.person.Person;
 import be.sha2001.featureflags.business.person.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@RestController("personControllerV1")
 @RequiredArgsConstructor
-@RequestMapping("/api/persons")
-public class PersonController {
+@RequestMapping("/api/v1/persons")
+class PersonController {
 
 
     private final PersonService personService;
-    private final PersonMapper personMapper;
+    private final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
 
 
     /** get person by id */

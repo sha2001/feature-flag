@@ -1,10 +1,10 @@
-package be.sha2001.featureflags.rest.person;
+package be.sha2001.featureflags.rest.person.v2;
 
 
 import lombok.Builder;
 
 @Builder
-public record PersonDto(
+record PersonDto(
         String id,
         String name,
         String surname,
